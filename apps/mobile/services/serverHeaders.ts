@@ -3,6 +3,10 @@ import { speaksHttpType } from "@/services/backend/serverTraits";
 import { type Server, useServersBase } from "@/stores/servers";
 import { basicAuthHeader } from "@/utils/basicAuth";
 import { USER_AGENT } from "@/utils/userAgent";
+import { getConnectionType } from "@/services/network";
+import { useAppBase } from "@/stores/app";
+import useOffline from "@/stores/offline";
+import { resolveCachedArtwork } from "@/utils/artwork";
 
 // User-defined headers for a server, resolved for an arbitrary request URL.
 // Backend-agnostic (a reverse proxy fronts the whole origin regardless of which
@@ -340,6 +344,37 @@ function wrappedFor(uri: string): {
  * source that already carries its own headers.
  */
 export function withServerHeaders<T>(source: T): T {
+  let uri: string | undefined;
+  if (typeof source === "string") {
+    if (isRemote(source)) uri = source;
+  } else if (source && typeof source === "object" && !Array.isArray(source)) {
+    const candidate = source as { uri?: unknown };
+    if (typeof candidate.uri === "string" && isRemote(candidate.uri)) {
+      uri = candidate.uri;
+    }
+  }
+
+  if (uri) {
+    const { imagesWifiOnly } = useAppBase.getState();
+    const isCellular = getConnectionType() === "cellular";
+    if (imagesWifiOnly && isCellular) {
+      const { artworkCache, artworkAliases } = useOffline.getState();
+      const idMatch = uri.match(/[?&]id=([^&]+)/);
+      const artworkId = idMatch ? decodeURIComponent(idMatch[1]) : uri;
+      const cachedLocal =
+        resolveCachedArtwork(artworkId, artworkCache, artworkAliases) ??
+        artworkCache[uri];
+
+      if (cachedLocal) {
+        if (typeof source === "string") return cachedLocal as T;
+        return { ...(source as object), uri: cachedLocal } as T;
+      } else {
+        if (typeof source === "string") return "" as T;
+        return { ...(source as object), uri: "" } as T;
+      }
+    }
+  }
+
   if (typeof source === "string") {
     if (!isRemote(source)) return source;
     return wrappedFor(source) as T;
