@@ -1,8 +1,11 @@
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { LinearGradient } from "expo-linear-gradient";
 import { Tabs, useSegments } from "expo-router";
+import AudioWaveform from "lucide-react-native/dist/esm/icons/audio-waveform.mjs";
+import Compass from "lucide-react-native/dist/esm/icons/compass.mjs";
 import Home from "lucide-react-native/dist/esm/icons/house.mjs";
 import Library from "lucide-react-native/dist/esm/icons/library.mjs";
+import Music2 from "lucide-react-native/dist/esm/icons/music-2.mjs";
 import Plus from "lucide-react-native/dist/esm/icons/plus.mjs";
 import Search from "lucide-react-native/dist/esm/icons/search.mjs";
 import type React from "react";
@@ -21,10 +24,19 @@ import OfflineBanner, {
 } from "@/components/OfflineBanner";
 import { useIsOnline } from "@/hooks/useIsOnline";
 import useApp from "@/stores/app";
+import useLidarr from "@/stores/lidarr";
+import useSoulSync from "@/stores/soulsync";
+import useTidarr from "@/stores/tidarr";
 
 export default function TabLayout() {
   const { t } = useTranslation();
   const showAddTab = useApp((store) => store.showAddTab);
+  const showLidarrTab = useApp((store) => store.showLidarrTab);
+  const showSoulSyncTab = useApp((store) => store.showSoulSyncTab);
+  const showTidarrTab = useApp((store) => store.showTidarrTab);
+  const isLidarrConnected = useLidarr((store) => store.isConnected);
+  const isSoulSyncConnected = useSoulSync((store) => store.isConnected);
+  const isTidarrConnected = useTidarr((store) => store.isConnected);
   const addBottomSheetRef = useRef<BottomSheetModal>(null);
   const emerald = useCSSVariable("--color-emerald-500") as string | undefined;
   const gray = useCSSVariable("--color-gray-200") as string | undefined;
@@ -179,6 +191,54 @@ export default function TabLayout() {
             tabPress: (e) => {
               e.preventDefault();
               navigation.navigate("(library)", { screen: "index" });
+            },
+          })}
+        />
+        <Tabs.Screen
+          name="lidarr-search"
+          options={{
+            ...(showLidarrTab && isLidarrConnected ? {} : { href: null as never }),
+            title: t("app.lidarr.tabTitle"),
+            tabBarIcon: ({ color }) => <Compass size={24} color={color} />,
+          }}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              navigation.navigate("(search)", {
+                screen: "downloaders/discovery",
+              });
+            },
+          })}
+        />
+        <Tabs.Screen
+          name="soulsync-search"
+          options={{
+            ...(showSoulSyncTab && isSoulSyncConnected ? {} : { href: null as never }),
+            title: t("app.soulsync.tabTitle"),
+            tabBarIcon: ({ color }) => <Music2 size={24} color={color} />,
+          }}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              navigation.navigate("(search)", {
+                screen: "downloaders/soulsync/search",
+              });
+            },
+          })}
+        />
+        <Tabs.Screen
+          name="tidarr-search"
+          options={{
+            ...(showTidarrTab && isTidarrConnected ? {} : { href: null as never }),
+            title: t("app.tidarr.tabTitle"),
+            tabBarIcon: ({ color }) => <AudioWaveform size={24} color={color} />,
+          }}
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              e.preventDefault();
+              navigation.navigate("(search)", {
+                screen: "downloaders/tidarr/search",
+              });
             },
           })}
         />

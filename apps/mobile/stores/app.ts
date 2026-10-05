@@ -121,6 +121,15 @@ interface AppStore {
   setShowDrawer: (showDrawer: boolean) => void;
   showAddTab: boolean;
   setShowAddTab: (showAddTab: boolean) => void;
+  // Quick-access navbar tabs for each downloader. Only visible when the
+  // toggle is on AND the integration is connected; the connected guard lives
+  // in the tab layout so the tab vanishes automatically on disconnect.
+  showLidarrTab: boolean;
+  setShowLidarrTab: (showLidarrTab: boolean) => void;
+  showSoulSyncTab: boolean;
+  setShowSoulSyncTab: (showSoulSyncTab: boolean) => void;
+  showTidarrTab: boolean;
+  setShowTidarrTab: (showTidarrTab: boolean) => void;
   showEmptyHomeSections: boolean;
   setShowEmptyHomeSections: (showEmptyHomeSections: boolean) => void;
   // Home feed sections hidden via Settings > Display settings. Values are
@@ -318,6 +327,18 @@ export const useAppBase = create<AppStore>()(
       showAddTab: false,
       setShowAddTab: (showAddTab: boolean) => {
         set({ showAddTab });
+      },
+      showLidarrTab: false,
+      setShowLidarrTab: (showLidarrTab: boolean) => {
+        set({ showLidarrTab });
+      },
+      showSoulSyncTab: false,
+      setShowSoulSyncTab: (showSoulSyncTab: boolean) => {
+        set({ showSoulSyncTab });
+      },
+      showTidarrTab: false,
+      setShowTidarrTab: (showTidarrTab: boolean) => {
+        set({ showTidarrTab });
       },
       showEmptyHomeSections: true,
       setShowEmptyHomeSections: (showEmptyHomeSections: boolean) => {

@@ -61,6 +61,15 @@
 					"nowPlaying": "Listening now"
 				}
 			},
+			"lidarr": {
+				"tabTitle": "Lidarr"
+			},
+			"soulsync": {
+				"tabTitle": "SoulSync"
+			},
+			"tidarr": {
+				"tabTitle": "Tidarr"
+			},
 			"search": {
 				"title": "Search",
 				"inputPlaceholder": "What do you want to listen to ?",
@@ -1200,7 +1209,9 @@
 						"connectionFailed": "Couldn't connect. Check the URL and API key.",
 						"removedMessage": "Lidarr configuration removed",
 						"autoScanLabel": "Scan library after download",
-						"autoScanDescription": "Rescan your server when a download finishes so new albums show up automatically"
+						"autoScanDescription": "Rescan your server when a download finishes so new albums show up automatically",
+						"navbarTabLabel": "Quick access tab",
+						"navbarTabDescription": "Show a Lidarr shortcut in the bottom tab bar"
 					},
 					"soulsync": {
 						"title": "SoulSync",
@@ -1251,7 +1262,9 @@
 						"scanAction": "Scan for new releases",
 						"scanStartedMessage": "Scanning watched artists…",
 						"scanFailed": "Couldn't start the scan.",
-						"emptyWatchlist": "No watched artists yet. Search for an artist to start watching them."
+						"emptyWatchlist": "No watched artists yet. Search for an artist to start watching them.",
+						"navbarTabLabel": "Quick access tab",
+						"navbarTabDescription": "Show a SoulSync shortcut in the bottom tab bar"
 					},
 					"tidarr": {
 						"title": "Tidarr",
@@ -1323,7 +1336,9 @@
 						"cancelFailed": "Couldn't cancel this download.",
 						"retryFailedAction": "Retry failed",
 						"retriedMessage": "Failed downloads have been queued again",
-						"retryFailed": "Couldn't retry the failed downloads."
+						"retryFailed": "Couldn't retry the failed downloads.",
+						"navbarTabLabel": "Quick access tab",
+						"navbarTabDescription": "Show a Tidarr shortcut in the bottom tab bar"
 					},
 					"discovery": {
 						"title": "Discovery",

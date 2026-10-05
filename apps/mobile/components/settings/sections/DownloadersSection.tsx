@@ -4,12 +4,15 @@ import { useTranslation } from "react-i18next";
 import { Uniwind } from "uniwind";
 import FadeOutScaleDown from "@/components/FadeOutScaleDown";
 import SettingsScreenScaffold from "@/components/settings/SettingsScreenScaffold";
+import { SettingsToggleRow } from "@/components/settings/SettingsRows";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
+import { Divider } from "@/components/ui/divider";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
+import useApp from "@/stores/app";
 import useLidarr from "@/stores/lidarr";
 import useSoulSync from "@/stores/soulsync";
 import useTidarr from "@/stores/tidarr";
@@ -71,6 +74,12 @@ export default function DownloadersSection() {
   const isLidarrConnected = useLidarr((store) => store.isConnected);
   const isSoulSyncConnected = useSoulSync((store) => store.isConnected);
   const isTidarrConnected = useTidarr((store) => store.isConnected);
+  const showLidarrTab = useApp((store) => store.showLidarrTab);
+  const setShowLidarrTab = useApp((store) => store.setShowLidarrTab);
+  const showSoulSyncTab = useApp((store) => store.showSoulSyncTab);
+  const setShowSoulSyncTab = useApp((store) => store.setShowSoulSyncTab);
+  const showTidarrTab = useApp((store) => store.showTidarrTab);
+  const setShowTidarrTab = useApp((store) => store.setShowTidarrTab);
 
   return (
     <SettingsScreenScaffold title={t("app.settings.menu.downloaders.title")}>
@@ -84,17 +93,40 @@ export default function DownloadersSection() {
           href="/downloaders/lidarr"
           isConnected={isLidarrConnected}
         />
+        <SettingsToggleRow
+          label={t("app.settings.downloaders.lidarr.navbarTabLabel")}
+          description={t("app.settings.downloaders.lidarr.navbarTabDescription")}
+          value={showLidarrTab}
+          onToggle={setShowLidarrTab}
+          disabled={!isLidarrConnected}
+        />
+        <Divider className="bg-primary-400" />
         <DownloaderRow
           title={t("app.settings.downloaders.soulsync.title")}
           description={t("app.settings.downloaders.soulsync.description")}
           href="/downloaders/soulsync"
           isConnected={isSoulSyncConnected}
         />
+        <SettingsToggleRow
+          label={t("app.settings.downloaders.soulsync.navbarTabLabel")}
+          description={t("app.settings.downloaders.soulsync.navbarTabDescription")}
+          value={showSoulSyncTab}
+          onToggle={setShowSoulSyncTab}
+          disabled={!isSoulSyncConnected}
+        />
+        <Divider className="bg-primary-400" />
         <DownloaderRow
           title={t("app.settings.downloaders.tidarr.title")}
           description={t("app.settings.downloaders.tidarr.description")}
           href="/downloaders/tidarr"
           isConnected={isTidarrConnected}
+        />
+        <SettingsToggleRow
+          label={t("app.settings.downloaders.tidarr.navbarTabLabel")}
+          description={t("app.settings.downloaders.tidarr.navbarTabDescription")}
+          value={showTidarrTab}
+          onToggle={setShowTidarrTab}
+          disabled={!isTidarrConnected}
         />
       </VStack>
     </SettingsScreenScaffold>
