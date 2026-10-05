@@ -131,8 +131,10 @@ function isCacheable(track: QueueTrack): boolean {
 /** The window: what playback will reach next, minus what it can't cache. */
 function currentWindow(): QueueTrack[] {
   const { trackCacheCount } = useAppBase.getState();
+  const effectiveCount =
+    getConnectionType() === "cellular" ? 1 : trackCacheCount;
   const currentId = useQueue.getState().getCurrent()?.id;
-  return peekNextTracks(trackCacheCount).filter(
+  return peekNextTracks(effectiveCount).filter(
     // The current track is already streaming or already cached; fetching it
     // again would compete with its own playback. Under repeat-one it is the
     // only thing peekNextTracks can return, which is the case this guards.

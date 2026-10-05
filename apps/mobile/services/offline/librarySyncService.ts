@@ -9,6 +9,7 @@ import {
   setBackgroundTimeout,
 } from "@/services/backgroundTimer";
 import {
+  getConnectionType,
   getIsEffectivelyOnline,
   subscribeConnectionType,
   subscribeEffectiveOnline,
@@ -46,6 +47,7 @@ import {
   shouldWriteAutoCollection,
   songEnumerationBaseline,
 } from "@/services/offline/librarySyncPlan";
+import { useAppBase } from "@/stores/app";
 import { useAuthBase } from "@/stores/auth";
 import useLibrarySync, { isIdMigrationFrozen } from "@/stores/librarySync";
 import useOffline, { type OfflineCollection } from "@/stores/offline";
@@ -336,6 +338,8 @@ export class LibrarySyncService {
     if (isIdMigrationFrozen()) return false;
     const { url, username, serverType } = useAuthBase.getState();
     if (!url || !username || isIndexBackedType(serverType)) return false;
+    const { librarySyncOnWifiOnly } = useAppBase.getState();
+    if (librarySyncOnWifiOnly && getConnectionType() !== "wifi") return false;
     return getIsEffectivelyOnline();
   }
 

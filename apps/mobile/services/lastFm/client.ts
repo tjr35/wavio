@@ -7,6 +7,7 @@ import {
   signParams,
 } from "@/services/lastFm/signature";
 import { useLastFmBase } from "@/stores/lastFm";
+import { getConnectionType } from "@/services/network";
 
 type ErrorBody = { error?: number; message?: string };
 
@@ -32,6 +33,9 @@ export const callRead = async <T>(
   params: LastFmParams = {},
   options?: { signal?: AbortSignal },
 ): Promise<T> => {
+  if (getConnectionType() === "cellular") {
+    throw new LastFmApiError(-1, "Skipped on cellular data to save bandwidth");
+  }
   const rsp = await lastFmApiInstance.get<T & ErrorBody>("", {
     params: { method, ...compactParams(params) },
     signal: options?.signal,

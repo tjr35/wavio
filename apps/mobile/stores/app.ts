@@ -227,6 +227,8 @@ interface AppStore {
   // spending someone's data plan is not a decision the app gets to make.
   scanOnWifiOnly: boolean;
   setScanOnWifiOnly: (enabled: boolean) => void;
+  librarySyncOnWifiOnly: boolean;
+  setLibrarySyncOnWifiOnly: (enabled: boolean) => void;
   // Re-walk an index-backed library by itself, so files added or removed on a
   // share show up without anyone pressing anything. Cheap by construction: the
   // indexer skips every file whose size and mtime are unchanged, so a sync that
@@ -467,6 +469,10 @@ export const useAppBase = create<AppStore>()(
       scanOnWifiOnly: true,
       setScanOnWifiOnly: (enabled: boolean) => {
         set({ scanOnWifiOnly: enabled });
+      },
+      librarySyncOnWifiOnly: true,
+      setLibrarySyncOnWifiOnly: (enabled: boolean) => {
+        set({ librarySyncOnWifiOnly: enabled });
       },
       autoLibrarySync: true,
       setAutoLibrarySync: (enabled: boolean) => {

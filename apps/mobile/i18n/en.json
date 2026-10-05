@@ -1399,6 +1399,8 @@
 					"downloadsWifiOnlyDescription": "Pause the download queue when on cellular. Resumes automatically when Wi-Fi returns.",
 					"imagesWifiOnlyLabel": "Download images on Wi-Fi only",
 					"imagesWifiOnlyDescription": "Pause artwork and image downloads when on cellular. Resumes automatically when Wi-Fi returns.",
+					"librarySyncOnWifiOnlyLabel": "Sync library on Wi-Fi only",
+					"librarySyncOnWifiOnlyDescription": "Pause extended offline library crawling and syncing when on cellular. Resumes automatically when Wi-Fi returns.",
 					"trackCacheLabel": "Prefetch upcoming tracks",
 					"trackCacheDescription": "Quietly download the next few tracks in the queue so playback keeps going through patchy reception. These copies are temporary and are replaced as you listen — they are not saved downloads.",
 					"trackCacheUsage_one": "{{count}} track prefetched · {{size}}",

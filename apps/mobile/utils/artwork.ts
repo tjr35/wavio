@@ -1,6 +1,6 @@
 import { isIndexBackedType } from "@/services/backend/serverTraits";
 import { artworkUrl as jellyfinArtworkUrl } from "@/services/jellyfin/streaming";
-import { getIsEffectivelyOnline } from "@/services/network";
+import { getConnectionType, getIsEffectivelyOnline } from "@/services/network";
 import { subsonicAuthQuery } from "@/services/openSubsonic/auth";
 import { useAuthBase } from "@/stores/auth";
 import useOffline from "@/stores/offline";
@@ -49,8 +49,11 @@ export const artworkUrl = (id?: string, size?: number) => {
   }
   if (isIndexBackedType(serverType)) return id ?? "";
   if (isArtworkUri(id)) return id as string;
-  if (serverType === "jellyfin") return jellyfinArtworkUrl(id, size);
-  const sizeParam = size ? `&size=${size}` : "";
+  const connectionType = getConnectionType();
+  const effectiveSize =
+    connectionType === "cellular" ? Math.min(size ?? 300, 300) : size;
+  if (serverType === "jellyfin") return jellyfinArtworkUrl(id, effectiveSize);
+  const sizeParam = effectiveSize ? `&size=${effectiveSize}` : "";
   return `${url}/rest/getCoverArt?id=${encodeURIComponent(id ?? "")}&${subsonicAuthQuery()}&v=${navidromeSubsonicApiVersion}&c=${navidromeClient}${sizeParam}`;
 };
 

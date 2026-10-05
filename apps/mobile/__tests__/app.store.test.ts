@@ -228,6 +228,14 @@ describe("app store", () => {
     expect(useAppBase.getState().imagesWifiOnly).toBe(false);
   });
 
+  it("setLibrarySyncOnWifiOnly toggles the flag", () => {
+    expect(useAppBase.getState().librarySyncOnWifiOnly).toBe(true);
+    useAppBase.getState().setLibrarySyncOnWifiOnly(false);
+    expect(useAppBase.getState().librarySyncOnWifiOnly).toBe(false);
+    useAppBase.getState().setLibrarySyncOnWifiOnly(true);
+    expect(useAppBase.getState().librarySyncOnWifiOnly).toBe(true);
+  });
+
   it("setReplayGainMode and setReplayGainPreampDb update independently", () => {
     useAppBase.getState().setReplayGainMode("track");
     useAppBase.getState().setReplayGainPreampDb(-3);
