@@ -333,8 +333,8 @@ export class ArtworkCacheService {
   }
 
   private processQueue(): void {
-    const { downloadsWifiOnly } = useAppBase.getState();
-    if (downloadsWifiOnly && getConnectionType() !== "wifi") return;
+    const { imagesWifiOnly } = useAppBase.getState();
+    if (imagesWifiOnly && getConnectionType() !== "wifi") return;
     if (this.trustBlocked) return;
     while (this.active < ARTWORK_CONCURRENCY) {
       const coverArt = this.queue.shift();

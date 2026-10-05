@@ -90,7 +90,7 @@ jest.mock("@/stores/auth", () => ({
   useAuthBase: { getState: () => mockAuthState },
 }));
 jest.mock("@/stores/app", () => ({
-  useAppBase: { getState: () => ({ downloadsWifiOnly: false }) },
+  useAppBase: { getState: () => ({ imagesWifiOnly: false }) },
 }));
 jest.mock("@/services/network", () => ({
   getConnectionType: () => "wifi",

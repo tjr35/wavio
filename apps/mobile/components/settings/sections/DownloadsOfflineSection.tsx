@@ -217,6 +217,8 @@ export default function DownloadsOfflineSection() {
   const capabilities = useCapabilities();
   const downloadsWifiOnly = useApp((store) => store.downloadsWifiOnly);
   const setDownloadsWifiOnly = useApp((store) => store.setDownloadsWifiOnly);
+  const imagesWifiOnly = useApp((store) => store.imagesWifiOnly);
+  const setImagesWifiOnly = useApp((store) => store.setImagesWifiOnly);
   const autoSignOutOnServerUnreachable = useApp(
     (store) => store.autoSignOutOnServerUnreachable,
   );
@@ -460,6 +462,14 @@ export default function DownloadsOfflineSection() {
           )}
           value={downloadsWifiOnly}
           onToggle={(value) => setDownloadsWifiOnly(value)}
+        />
+        <SettingsToggleRow
+          label={t("app.settings.offlineSettings.imagesWifiOnlyLabel")}
+          description={t(
+            "app.settings.offlineSettings.imagesWifiOnlyDescription",
+          )}
+          value={imagesWifiOnly}
+          onToggle={(value) => setImagesWifiOnly(value)}
         />
         {/* Same gate as the extended-offline row: the on-device library's tracks
             are already files here, so there is nothing to prefetch. */}

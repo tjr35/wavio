@@ -3,6 +3,9 @@
   "main": "index.js",
   "version": "1.4.0",
   "license": "MIT",
+  "overrides": {
+    "yallist": "^4.0.0"
+  },
   "scripts": {
     "start": "eas env:exec --non-interactive development \"APP_VARIANT=development expo start\"",
     "prebuild": "bunx expo prebuild",

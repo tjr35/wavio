@@ -182,6 +182,8 @@ interface AppStore {
   ) => void;
   downloadsWifiOnly: boolean;
   setDownloadsWifiOnly: (downloadsWifiOnly: boolean) => void;
+  imagesWifiOnly: boolean;
+  setImagesWifiOnly: (imagesWifiOnly: boolean) => void;
   // Format offline downloads are stored in, independent of the streaming
   // settings. "raw" downloads the original file; any other value asks the
   // server to transcode, with downloadMaxBitRate as the encode target.
@@ -425,6 +427,10 @@ export const useAppBase = create<AppStore>()(
       downloadsWifiOnly: false,
       setDownloadsWifiOnly: (downloadsWifiOnly: boolean) => {
         set({ downloadsWifiOnly });
+      },
+      imagesWifiOnly: false,
+      setImagesWifiOnly: (imagesWifiOnly: boolean) => {
+        set({ imagesWifiOnly });
       },
       downloadFormat: "raw",
       setDownloadFormat: (downloadFormat: StreamFormat) => {
