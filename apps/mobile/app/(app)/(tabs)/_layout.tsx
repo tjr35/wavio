@@ -63,6 +63,10 @@ export default function TabLayout() {
             // when loaded, bold system font under zh-CN (see app/_layout.tsx).
             fontFamily: "Inter_700Bold",
             fontWeight: "700",
+            fontSize: 10,
+          },
+          tabBarItemStyle: {
+            paddingHorizontal: 0,
           },
           // In landscape, dock the tab bar to the left as a solid sidebar column;
           // react-navigation lays the screens out to its right automatically and
@@ -180,6 +184,23 @@ export default function TabLayout() {
           })}
         />
         <Tabs.Screen
+          name="add"
+          options={{
+            // Only set `href` to hide the tab; when shown, omit it so the
+            // custom `tabBarButton` (which suppresses the Android ripple)
+            // applies instead of expo-router's href-injected Pressable.
+            ...(showAddTab ? {} : { href: null as never }),
+            title: t("app.create.title"),
+            tabBarIcon: ({ color }) => <Plus size={24} color={color} />,
+          }}
+          listeners={{
+            tabPress: (e) => {
+              e.preventDefault();
+              handleAddTabPress();
+            },
+          }}
+        />
+        <Tabs.Screen
           name="(library)"
           options={{
             title: t("app.library.title"),
@@ -241,23 +262,6 @@ export default function TabLayout() {
               });
             },
           })}
-        />
-        <Tabs.Screen
-          name="add"
-          options={{
-            // Only set `href` to hide the tab; when shown, omit it so the
-            // custom `tabBarButton` (which suppresses the Android ripple)
-            // applies instead of expo-router's href-injected Pressable.
-            ...(showAddTab ? {} : { href: null as never }),
-            title: t("app.create.title"),
-            tabBarIcon: ({ color }) => <Plus size={24} color={color} />,
-          }}
-          listeners={{
-            tabPress: (e) => {
-              e.preventDefault();
-              handleAddTabPress();
-            },
-          }}
         />
       </Tabs>
       <AddBottomSheet ref={addBottomSheetRef} />
